@@ -1,0 +1,30 @@
+*faze*1a
+/c
+Koje sve faze kompajliranja pripadaju prednjem modulu kompajlera (<i>front end</i>)?
++leksička analiza
++sintaksna analiza
+-generisanje koda
+-optimizacija koda
+.
+
+*6a
+/c
+Akcije LR parsera su:
++<c>accept</c>
++<c>error</c>
+-<c>scan</c>
+-<c>conflict</c>
+.
+
+*IDn*1j
+/u
+Koliko puta skener prepozna identifikator (token <c>_ID</c>) u narednom primeru?
+ int f1() {
+     int a;
+     int b;
+     a = 3;
+     b = 9;
+     return a + 1 - b;
+ }
+\Odgovor\7
+.
