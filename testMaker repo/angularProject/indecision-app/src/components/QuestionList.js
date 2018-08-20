@@ -76,7 +76,7 @@ export default class QuestionList extends React.Component{
     render() {
         return(
           
-             <div className = "scroll-div" >
+             <div className = "col-lg-12 scroll-div" >
                 <table className="table table-hover table-centered" >
                     <thead className="thead-light">
                         <tr >

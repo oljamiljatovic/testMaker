@@ -131,7 +131,7 @@ export default class ImportFile extends React.Component{
       
         return(
           <div>
-              <Header />
+              <Header activeLink = "importFile" />
             <div>
                 <br />
             <form onSubmit={this.onFormSubmit}>

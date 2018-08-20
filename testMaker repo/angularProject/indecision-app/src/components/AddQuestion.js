@@ -157,24 +157,24 @@ export default class AddQuestion extends React.Component {
             >
                 <div >
                     <div className="row" >
-                        <div className="offset-lg-2 col-lg-4 ">
+                        <div className="offset-lg-1 col-lg-5 ">
                         
                             <form onSubmit={this.addQuestion} >
 
                                 <div className="row">
-                                    <div className="form-group col-lg-5">
+                                    <div className="form-group col-lg-6">
                                         <label>Naziv pitanja:</label>
                                         <input type="text" name="questionName" className="form-control form-control-lg " />
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="form-group col-lg-5">
+                                    <div className="form-group col-lg-6">
                                         <label>Tekst pitanja:</label>
                                         <textarea name="questionText" className="form-control " rows="5" />
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="form-group col-lg-5">
+                                    <div className="form-group col-lg-6">
                                         <label>Tip pitanja:</label>
                                         <select className="form-control form-control-lg "
                                             name="questionType"
@@ -192,7 +192,7 @@ export default class AddQuestion extends React.Component {
                                 </div>
 
                                 <div className="row">
-                                    <div className="form-group col-lg-5">
+                                    <div className="form-group col-lg-6">
                                         <label>Kategorija tezine:</label>
                                         <select
                                             className="form-control form-control-lg "
@@ -210,20 +210,22 @@ export default class AddQuestion extends React.Component {
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="form-group col-lg-5">
-                                        <label>Broj bodova za tacan odgovor:  :</label>
+                                    <div className="form-group col-lg-6">
+                                        <label>Broj bodova za tacan odgovor:</label>
                                         <input type="text" name="questionPlusPoints" className="form-control form-control-lg " value={this.state.plusPoints} onChange={this.changePlusPoints} />
                                     </div>
                                 </div>
 
                                 <div className="row">
-                                    <div className="form-group col-lg-5">
+                                    <div className="form-group col-lg-6">
                                         <label>Broj bodova za netacan odgovor:</label>
                                         <input type="text" name="questionMinusPoints" className="form-control form-control-lg" />
                                     </div>
                                 </div>
                                 <div className="row">
+                                <div className=" offset-lg-4 col-lg-2  ">
                                     <button className="btn btn-primary">Dodaj</button>
+                                </div>
                                 </div>
                             </form>
                          
@@ -239,8 +241,12 @@ export default class AddQuestion extends React.Component {
 
 
                     </div>
-
-                    <button onClick={this.props.closeAddQuestion} >Close </button>
+                    <div className="row ">
+            <div className=" offset-lg-10 col-lg-2  ">
+              <button onClick={this.props.closeAddQuestion} className="btn btn-primary" >Close </button>
+            </div>
+          </div>
+                  {/*   <button onClick={this.props.closeAddQuestion} >Close </button> */}
                 </div>
             </Modal>
         );

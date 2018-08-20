@@ -153,13 +153,11 @@
 
 
 .scroll-div {
-  /* width:500px; */
   overflow-y:scroll;
-  height:170px;
+  height:130px;
 }
 
 .scroll-subject {
-  /* width:500px; */
   overflow-y:scroll;
   height:130px;
 }
@@ -167,8 +165,103 @@
 .scroll-answers {
   /* width:500px; */
   overflow-y:scroll;
-  height:130px;
+  height:170px;
 }
 
+
+.modalDialog{
+   
+ /*  width:50%;
+  height: 50%; */
+  background: pink;
+ /*  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center; */
+
+ position: absolute;
+  top: 20%;
+  left: 20%;
+  right: 20%;
+  
+}
+.modal-background {
+  background: pink;
+  position: absolute;
+   top: 10%;
+   left: 10%;
+   right: 10%;
+   bottom: 10%;
+
+}
+
+.close-bottom{
+  
+  position: absolute;
+  bottom: 0;
+  //left: 0;
+  padding-bottom: 2%;
+
+}
+
+.modalInformation{
+ 
+/*    background: pink;
+    justify-content: center;
+   display: flex;
+   flex-direction: row;
+   align-items: center;  */
+ 
+   background: pink;
+  position: absolute;
+   top: 20%;
+   left: 20%;
+   right: 20%;
+   bottom: 20%;
+   
+ }
+
+.div-centered{
+
+  display: flex;
+  margin: 30px auto;
+
+}
+.centered-content{
+  justify-content: center;
+  align-items: center; 
+}
+
+.right-content{
+  padding-top: 7%;
+  padding-bottom: 7%;
+
+}
+
+.form-padding{
+  padding-top: 5%;
+}
+.answer-padding{
+  padding-top: 7%;
+}
+.modal-title-padding{
+  padding-top: 2%;
+}
+
+.padding-bottom  {
+  padding-bottom: 2%;
+}
+
+.padding-left-test{
+  padding-left: 12%;
+}
+
+.padding-right-test{
+  padding-top : 2%;
+  padding-right: 10%;
+}
+.padding-right-test{
+  padding-right: 4%;
+}
   }
   

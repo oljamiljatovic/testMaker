@@ -10,11 +10,10 @@ import ImportFile from './components/ImportFile';
 import TestList from './components/TestList';
 import validator from 'validator';
 import SectionList from './components/SectionList';
-//import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const Dashbord = () => (
-<div><Header /> <br/> <SubjectList canAddSubjectShow = {true} /></div>
+<div><Header activeLink = "/" /> <br/> <SubjectList canAddSubjectShow = {true} /></div>
 );
 
 const NotFoundPage = () => (
@@ -26,14 +25,16 @@ const NotFoundPage = () => (
 const routes = (
     <BrowserRouter>
         <Switch>
-             <Route path = "/" component = {Dashbord} exact = {true}/>
-             <Route path = "/createTest" component = {CreateTest} exact = {true}/>
-             <Route path = "/importFile" component = {ImportFile} exact = {true}/>
-             <Route path = "/testList" component = {TestList} exact = {true}/>
-             <Route path = "/sectionList" component = {SectionList} exact = {true}/>
+             <Route path = "/"  render={() => <Dashbord activeLink = "/"/>} exact = {true}/>
+             <Route path = "/createTest" render={() => <CreateTest activeLink = "createTest"/>} exact = {true}/>
+             <Route path = "/importFile" render={() => <ImportFile activeLink = "importFile"/>} exact = {true}/>
+             <Route path = "/testList" render={() => <TestList activeLink = "testList"/>} exact = {true}/>
+    
              <Route component = {NotFoundPage} />
         </Switch>
     </BrowserRouter>
 );
+
+
 
  ReactDOM.render(routes,document.getElementById('app')); 

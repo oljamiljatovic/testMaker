@@ -19,10 +19,10 @@ export default class SectionList extends React.Component {
         this.state = {
             sectionList: [],
             canQuestionsShow: false,
-            canAddSectionShow :false,
+            canAddSectionShow: false,
             sectionId: -1,
-            subject : this.props.subject,
-            canAddQuestionShow : false
+            subject: this.props.subject,
+            canAddQuestionShow: false
         };
     }
     handleAddSectionForSubject(addedSection) {
@@ -33,35 +33,39 @@ export default class SectionList extends React.Component {
 
 
     questionsForSection(sectionId) {
+
         this.setState({
             canQuestionsShow: true,
             sectionId: sectionId
 
         })
+        if (this.props.selectedSection != null) {
+            this.props.selectedSection(sectionId);
+        }
     }
 
     addQuestion(sectionId) {
-       /*  this.setState({
-            sectionId: sectionId
-
-        }) */
+        /*  this.setState({
+             sectionId: sectionId
+ 
+         }) */
         this.setState({
             sectionId: sectionId,
             canAddQuestionShow: true,
             canQuestionsShow: false
-            
+
 
         })
     }
 
-    openAddSection(){
+    openAddSection() {
         this.setState({
-           canAddSectionShow : true
+            canAddSectionShow: true
         })
     }
 
     closeAddSection = () => {
-        this.setState(() => ({canAddSectionShow :false}))
+        this.setState(() => ({ canAddSectionShow: false }))
     }
     componentDidMount() {
 
@@ -74,12 +78,12 @@ export default class SectionList extends React.Component {
             .then(res => res.json())
             .then(data => this.setState({
                 sectionList: data,
-                subject : this.props.subject
+                subject: this.props.subject
             }));
 
     }
-    closeAddQuestion(){
-        this.setState(() => ({canAddQuestionShow :false}))
+    closeAddQuestion() {
+        this.setState(() => ({ canAddQuestionShow: false }))
     }
 
     componentWillReceiveProps(nextProps) {
@@ -93,7 +97,7 @@ export default class SectionList extends React.Component {
                 .then(res => res.json())
                 .then(data => this.setState({
                     sectionList: data,
-                    subject : nextProps.subject
+                    subject: nextProps.subject
                 }));
         }
     }
@@ -124,10 +128,14 @@ export default class SectionList extends React.Component {
 
         return (
 
-                <div className="row">
+            <div id="prviUSection"
+                className={this.props.isCreateTest !== true ? 'row ' : 'col-lg-6'}>
 
-                    <div className="col-lg-6  scroll-div">
-                    
+                <div
+                    className={this.props.isCreateTest !== true ? 'col-lg-6  scroll-div ' : 'scroll-div'}>
+                    {this.props.isCreateTest &&
+                        <label>Oblasti </label>
+                    }
                     <table className="table table-hover table-centered" >
                         <thead className="thead-light">
                             <tr >
@@ -137,44 +145,41 @@ export default class SectionList extends React.Component {
                                 <th>&nbsp; </th>
                             </tr>
                         </thead>
-
                         <tbody >
                             {this.renderSections()}
                         </tbody>
                     </table>
-                  
-                 
-                    
-         <button   onClick={(e) => {
-                            this.openAddSection();
-                        }}>Dodaj oblast</button>
-                     
-                        <AddSectionForSubject 
-                            subjectId = {this.state.subject.id}
-                            canAddSectionShow = {this.state.canAddSectionShow}
-                            closeAddSection = {this.closeAddSection}
-                            handleAddSectionForSubject={this.handleAddSectionForSubject} />
-                  
-           
-                  </div>
-                     <div className="col-lg-6 centered" >
-                    {/*  <h3> Pitanja : </h3>  */}
-                   
-                     {this.state.canQuestionsShow && !this.props.isCreateTest && <QuestionList sectionId={this.state.sectionId} />}
-               {/*  {this.state.canAddQuestionShow && <AddQuestion sectionId={this.state.sectionId} />} */}
-             
-               <AddQuestion
-                            sectionId = {this.state.sectionId}
-                            canAddQuestionShow = {this.state.canAddQuestionShow}
-                            closeAddQuestion = {this.closeAddQuestion}
-                           /*  handleAddSectionForSubject={this.handleAddSectionForSubject} */ />
-             
-                {this.props.isCreateTest && <QuestionsForTest getQuestions={this.props.getQuestions} sectionId={this.state.sectionId} />}
-                    
-                    </div>
+
+                    <button onClick={(e) => {
+                        this.openAddSection();
+                    }}>Dodaj oblast</button>
+
+                    <AddSectionForSubject
+                        subjectId={this.state.subject.id}
+                        canAddSectionShow={this.state.canAddSectionShow}
+                        closeAddSection={this.closeAddSection}
+                        handleAddSectionForSubject={this.handleAddSectionForSubject} />
+
                 </div>
-               
-        
+                <div
+                    className={this.props.isCreateTest !== true ? 'col-lg-6  ' : 'row '}>
+                    {this.state.canQuestionsShow && !this.props.isCreateTest && <QuestionList sectionId={this.state.sectionId} />}
+
+                </div>
+                <AddQuestion
+                    sectionId={this.state.sectionId}
+                    canAddQuestionShow={this.state.canAddQuestionShow}
+                    closeAddQuestion={this.closeAddQuestion}
+                           /*  handleAddSectionForSubject={this.handleAddSectionForSubject} */ />
+
+
+                {/*    {this.props.isCreateTest && <QuestionsForTest getQuestions={this.props.getQuestions} sectionId={this.state.sectionId} />} */}
+
+
+
+            </div>
+
+
         );
     }
 

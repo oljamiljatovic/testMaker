@@ -2,17 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import AddSubject from './addSubject';
 import SectionList from './SectionList';
+import QuestionsForTest from './QuestionsForTest';
 export default class SubjectList extends React.Component {
 
     constructor(props) {
         super(props);
         this.handleAddSubject = this.handleAddSubject.bind(this);
         this.optionsForSubject = this.optionsForSubject.bind(this);
+        this.selectedSection = this.selectedSection.bind(this);
         this.state = {
             subjectList: [],
             canSectionsShow: false,
             subjectId: -1,
-            subject: {}
+            subject: {},
+            sectionId: -1,
+            canShowQuestionForTest: false
         };
     }
     handleAddSubject(addedSubject) {
@@ -23,6 +27,10 @@ export default class SubjectList extends React.Component {
 
 
     optionsForSubject(subject) {
+        if(this.props.choosenSubject != null){
+            this.props.choosenSubject(subject.id);
+        }
+      
         this.setState({
             canSectionsShow: true,
             subjectId: subject.id,
@@ -30,6 +38,13 @@ export default class SubjectList extends React.Component {
         })
 
         //.then(data => this.props.history.push('/sectionList'));
+    }
+
+    selectedSection(sectionId) {
+        this.setState({
+            sectionId: sectionId,
+            canShowQuestionForTest: true
+        })
     }
 
 
@@ -50,7 +65,7 @@ export default class SubjectList extends React.Component {
                 <td>{subject.id}</td>
                 <td>{subject.name}</td>
                 <td>
-           
+
                     <input type="button" value="Oblasti"
                         onClick={(e) => {
                             this.optionsForSubject(subject);
@@ -66,8 +81,12 @@ export default class SubjectList extends React.Component {
         return (
 
             <div className="container">
-                <div className="row">
-                    <div className="col-lg-12 scroll-subject">
+                <div className="row padding-right-test">
+                    <div
+                        className={this.props.isCreateTest !== true ? 'col-lg-12 scroll-subject ' : 'col-lg-6 scroll-subject'}>
+                        {this.props.isCreateTest &&
+                            <label>Predmeti </label>
+                        }
                         <table className="table table-hover table-centered" >
                             <thead className="thead-light">
                                 <tr >
@@ -80,31 +99,43 @@ export default class SubjectList extends React.Component {
                             <tbody>
                                 {this.renderSubjects()}
                             </tbody>
-                        </table></div>
-                </div>
-                <br/>
-                <div className="row">
-                    {this.state.canSectionsShow && 
-                    <div className="col-lg-12"> 
-                        <h3> Oblasti za predmet "{this.state.subject.name}": </h3>
-                         <SectionList subject={this.state.subject} isCreateTest={this.props.isCreateTest} subjectId={this.state.subjectId}
-                        getQuestions={this.props.getQuestions} /> 
+                        </table>
                     </div>
-                    } 
-                    
+
+                    {this.state.canSectionsShow && this.props.isCreateTest &&
+
+
+                        <SectionList subject={this.state.subject} isCreateTest={this.props.isCreateTest} subjectId={this.state.subjectId}
+                            getQuestions={this.props.getQuestions} selectedSection={this.selectedSection} />
+
+                    }
                 </div>
+
+                {this.state.canSectionsShow && !this.props.isCreateTest &&
+                    <SectionList subject={this.state.subject} isCreateTest={this.props.isCreateTest} subjectId={this.state.subjectId}
+                        getQuestions={this.props.getQuestions} />
+                }
+
+
+                {this.state.canShowQuestionForTest &&
+                    <div className="row">
+                        <div className="col-lg-12">
+                            {this.props.isCreateTest && <QuestionsForTest getQuestions={this.props.getQuestions} sectionId={this.state.sectionId} />}
+                        </div>
+                    </div>}
+
             </div>
 
-                
-                /*  
 
-                    {this.props.canAddSubjectShow && <div>
-                        <h2>Novi predmet : </h2>
-                        <AddSubject handleAddSubject={this.handleAddSubject} />
-                    </div>}
-                </div>
-              */
-         
+            /*  
+
+                {this.props.canAddSubjectShow && <div>
+                    <h2>Novi predmet : </h2>
+                    <AddSubject handleAddSubject={this.handleAddSubject} />
+                </div>}
+            </div>
+          */
+
         );
     }
 

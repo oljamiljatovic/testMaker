@@ -92,7 +92,7 @@ export default class TestList extends React.Component{
                     <td>{subject.id}</td>
                     <td>{subject.name}</td>
                     <td>
-                        <input type="button" value="Testovi" 
+                        <input type="button" className = "btn btn-primary" value="Testovi" 
                         onClick={(e) => {
                             this.testsForSubject(subject.id);
                         }}/>
@@ -105,13 +105,13 @@ export default class TestList extends React.Component{
                 <tr key={test.id}>
                     <td>{test.name}</td>
                      <td>
-                        <input type="button" value="Pitanja iz testa" 
+                        <input type="button" className = "btn btn-primary" value="Pitanja iz testa" 
                         onClick={(e) => {
                             this.questionsForTest(test.id);
                         }}/>
                     </td>  
                     <td>
-                        <input type="button" value="Export u fajl" 
+                        <input type="button" className = "btn btn-primary" value="Export u fajl" 
                         onClick={(e) => {
                             this.export(test.id);
                         }}/>
@@ -139,11 +139,11 @@ export default class TestList extends React.Component{
       
         return(
             <div>
-                <Header /> 
+                <Header activeLink = "testList" /> 
             <div className = "questionAndAnswers">
                 <br />
-                <table >
-                    <thead>
+                <table  className="table table-hover table-centered">
+                    <thead className="thead-light">
                         <tr >
                             <th>ID</th>
                             <th>Name</th>
