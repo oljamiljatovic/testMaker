@@ -129,6 +129,7 @@ public class QuestionController {
 						question.setPlusPoints(1.0);
 						question = questionService.save(question);
 						questionList.add(question);
+			
 					}else {
 						//ovdje ce ici za /u
 						String textQuestion="";

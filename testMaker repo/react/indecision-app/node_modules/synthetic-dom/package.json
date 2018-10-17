@@ -1,0 +1,22 @@
+{
+  "name": "synthetic-dom",
+  "version": "1.2.0",
+  "description": "Synthetic HTML DOM for use with parsing within React-RTE",
+  "main": "lib/main.js",
+  "scripts": {
+    "build": "babel src --out-dir lib --ignore \"_*\"",
+    "watch": "babel src --watch --out-dir lib --ignore \"_*\""
+  },
+  "keywords": [
+    "synthetic-dom",
+    "virtual-dom",
+    "markdown-parser"
+  ],
+  "author": "sstur@me.com",
+  "license": "ISC",
+  "repository": "https://github.com/sstur/draft-js-utils/tree/master/packages/synthetic-dom",
+  "bugs": {
+    "url": "https://github.com/sstur/draft-js-utils/issues"
+  },
+  "homepage": "https://github.com/sstur/draft-js-utils/blob/master/packages/synthetic-dom/README.md"
+}

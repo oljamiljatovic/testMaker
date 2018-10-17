@@ -1,5 +1,6 @@
 package com.testMaker.test;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -69,6 +70,8 @@ public class TestController {
 			writer.println("SEKCIJA TJ OBLAST" + "\t\t" + question.getName() + "\t" +question.getPlusPoints()
 			+"\t" +question.getMinusPoints() + "\t izbacivanje");
 		}
+		
+		
 		writer.close();
 		return test;
 	}
