@@ -8,7 +8,6 @@ class CreateTest extends React.Component {
   constructor(props) {
     super(props);
     this.getQuestions = this.getQuestions.bind(this);
-    this.choosenSubject = this.choosenSubject.bind(this);
     this.addTest = this.addTest.bind(this);
     this.changeStateOfDivParameters = this.changeStateOfDivParameters.bind(this);
     this.state = {
@@ -18,11 +17,12 @@ class CreateTest extends React.Component {
     };
   }
 
-
+  componentDidMount() {
+    this.setState({ subjectId: localStorage.getItem('subjectID') })
+  }
   getQuestions(questions) {
     this.setState({ questionList: questions })
   }
-
 
   addTest(e) {
     e.preventDefault();
@@ -61,16 +61,11 @@ class CreateTest extends React.Component {
 
   }
 
-  choosenSubject(subjectId) {
-    this.setState({ subjectId: subjectId })
-  }
-
   changeStateOfDivParameters(e){
     e.preventDefault();
       this.setState({ divForParametersVisibility : !this.state.divForParametersVisibility })
-    
-   
   }
+
   render() {
     return (
 
@@ -176,7 +171,7 @@ class CreateTest extends React.Component {
   </div>
           <div className="row">
             <div className=" col-lg-12">
-              <SubjectList canAddSubjectShow={false} choosenSubject={this.choosenSubject} isCreateTest={true} getQuestions={this.getQuestions} />
+              <SubjectList  canAddSubjectShow={false}  isCreateTest={true} getQuestions={this.getQuestions} />
             </div>
           </div>
 

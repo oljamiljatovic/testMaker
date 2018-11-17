@@ -74,10 +74,10 @@ export default class QuestionList extends React.Component{
                     <td>{question.name}</td>
                     <td>{this.renderCategory(question.category)}</td>
                     <td>
-                        <input type="button" className= "rounded-button btn button-primary-color" value="Informacije o pitanju" 
+                    {  <input type="button" className= "rounded-button btn button-primary-color" value="Informacije"
                         onClick={(e) => {
                             this.informationAboutQuestion(question.id);
-                        }}/>
+                        }}/>}
                     </td>  
                 </tr>
         ))
@@ -87,8 +87,8 @@ export default class QuestionList extends React.Component{
     render() {
         return(
           
-             <div className = "col-lg-12 scroll-subject" >
-                <table className="table table-hover table-centered" >
+             <div className = "col-lg-12 " >
+                <table className="table table-hover table-centered fixed_header" >
                     <thead> 
                         <tr >
                            <th>Oznaka pitanja </th>

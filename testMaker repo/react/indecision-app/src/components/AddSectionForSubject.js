@@ -70,8 +70,8 @@ export default class AddSectionForSubject extends React.Component {
                 <div className="row centered-content">
                   <div className="form-group col-lg-12 ">
                     <label className= "text-color">Naziv oblasti:</label>
-                    <input type="text" name="sectionName" className="form-control form-control-lg " />
-
+                    {/* <input type="text" name="sectionName" className="form-control form-control-lg " /> */}
+                    <textarea name="text"  name="sectionName" className="form-control form-control-lg " cols="40" rows="5"/>
                   </div>
                 </div>
                 <div className="row right-content">

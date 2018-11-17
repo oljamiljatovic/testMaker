@@ -19,35 +19,27 @@ export default class ImportFile extends React.Component {
     this.state = {
       questions: [],
       options: [],
-      /*  isChecked: false, */
       sectionId: '',
       file: null,
       questionsVisibility: false,
-      questionId : '',
-      questionInformationVisibility : false
-      
+      questionId: '',
+      questionInformationVisibility: false
+
     };
   }
 
-  /*   toggleCheckboxChange() {
-      this.setState(({ isChecked }) => (
-        {
-          isChecked: !isChecked,
-        }
-      ));
-    }
-   */
 
   closeQuestionInformation = () => {
-    this.setState(() => ({questionInformationVisibility :false}))
-}
+    this.setState(() => ({ questionInformationVisibility: false }))
+  }
   handleChangeSelect(event) {
     this.setState({ sectionId: event.target.value });
   }
 
   schedulesInSections() {
     let data = this.state.questions;
-    /*  if (this.state.isChecked) { */
+
+
 
     const url = 'http://localhost:8080/scheduleQuestionsInSections/' + this.state.sectionId;
     let fetchData = {
@@ -65,13 +57,13 @@ export default class ImportFile extends React.Component {
         sectionId: data.id
       }));
 
-    /*   } */
   }
   componentDidMount() {
-    var quizUrl = 'http://localhost:8080/sectionList';
+    var subjectID = localStorage.getItem('subjectID');
+    var quizUrl = 'http://localhost:8080/sectionListForSubject/' + subjectID;
     fetch(quizUrl, {
       mode: 'cors',
-      method: "GET",
+      method: "PUT",
       response: true
     })
       .then(res => res.json())
@@ -79,10 +71,10 @@ export default class ImportFile extends React.Component {
 
   }
 
-  informationAboutQuestion(questionId){
+  informationAboutQuestion(questionId) {
     this.setState({
-        questionId : questionId,
-        questionInformationVisibility : true
+      questionId: questionId,
+      questionInformationVisibility: true
     })
   }
 
@@ -131,7 +123,7 @@ export default class ImportFile extends React.Component {
   renderQuestions() {
     return this.state.questions.map(question => (
       <tr key={question.id}>
-        
+
         <td>{question.name}</td>
         <td>{question.type}</td>
         <td>{this.renderCategory(question.category)}</td>
@@ -142,11 +134,6 @@ export default class ImportFile extends React.Component {
               this.informationAboutQuestion(question.id);
             }} />
         </td>
-        {/*    <td><input type="button" value="Oblasti" onClick={
-                (e) => {
-                    this.optionsForSubject(subject.id);
-                }
-            }/></td> */}
       </tr>
     ))
   }
@@ -166,11 +153,11 @@ export default class ImportFile extends React.Component {
                   <label htmlFor="myuniqueid" className="fa fa-upload margin-left-button">Odabir</label>
                 </div>
               </div>
-              <div className  ="row padding-top-5">
-              <div className="form-group col-lg-5">
-              <button className = "btn button-primary-color btn-lg btn-block" type="submit">Učitaj</button>
-           
-           </div> </div>
+              <div className="row padding-top-5">
+                <div className="form-group col-lg-5">
+                  <button className="btn button-primary-color btn-lg btn-block" type="submit">Učitaj</button>
+
+                </div> </div>
             </form>
           </div>
         </div>
@@ -182,7 +169,6 @@ export default class ImportFile extends React.Component {
             <table className="table table-hover table-centered" >
               <thead >
                 <tr >
-                 
                   <th>Naziv pitanja</th>
                   <th>Tip</th>
                   <th>Kategorija težine</th>
@@ -198,22 +184,18 @@ export default class ImportFile extends React.Component {
 
           </div>
 
-
           <div className=" col-lg-6 padding-top-5 ">
-
             <div className="row padding-left-10 ">
               <div className=" col-lg-6 " >
-                <label className= "text-color">Odaberite oblast kojoj pitanja pripadaju : </label>
+                <label className="text-color">Odaberite oblast kojoj pitanja pripadaju : </label>
               </div>
             </div>
 
 
             <div className="row form-padding">
               <div className=" offset-lg-1 col-lg-4 ">
-                <select className="form-control form-control-lg"
-                  name="Oblasti"
+                <select className="form-control form-control-lg" name="Oblasti"
                   onChange={this.handleChangeSelect}>
-
                   {this.state.options.map(opt => {
                     return (
                       <option
@@ -225,24 +207,21 @@ export default class ImportFile extends React.Component {
               </div>
 
               <div className=" col-lg-6 ">
-                <button  className="rounded-button btn button-primary-color" onClick={
+                <button className="rounded-button btn button-primary-color" onClick={
                   (e) => {
                     this.schedulesInSections();
                   }
                 } >Dodaj </button>
               </div>
             </div>
-
-
-
           </div>
 
 
- <QuestionInformation
-                     questionId = {this.state.questionId}
-                     questionInformationVisibility = {this.state.questionInformationVisibility}
-                     closeQuestionInformation = {this.closeQuestionInformation}
-                    /> 
+          <QuestionInformation
+            questionId={this.state.questionId}
+            questionInformationVisibility={this.state.questionInformationVisibility}
+            closeQuestionInformation={this.closeQuestionInformation}
+          />
 
         </div>}
       </div>

@@ -14,7 +14,6 @@ export default class TestList extends React.Component {
         this.closeQuestionInformation = this.closeQuestionInformation.bind(this);
         this.export = this.export.bind(this);
         this.state = {
-            subjectList: [],
             testList: [],
             questionList: [],
             testsVisibility: false,
@@ -79,31 +78,9 @@ export default class TestList extends React.Component {
 
 
     componentDidMount() {
-        var quizUrl = 'http://localhost:8080/subjectList';
-        fetch(quizUrl, {
-            mode: 'cors',
-            method: "GET",
-            response: true
-        })
-            .then(res => res.json())
-            .then(data => this.setState({ subjectList: data }));
+         this.testsForSubject(localStorage.getItem('subjectID'));
     }
 
-    renderSubjects() {
-        return this.state.subjectList.map(subject => (
-            <tr key={subject.id}>
-                <td>{subject.id}</td>
-                <td>{subject.name}</td>
-                <td>{subject.label}</td>
-                <td>
-                    <input type="button" className="btn rounded-button button-primary-color" value="Testovi"
-                        onClick={(e) => {
-                            this.testsForSubject(subject.id);
-                        }} />
-                </td>
-            </tr>
-        ))
-    }
     renderTests() {
         return this.state.testList.map(test => (
             <tr key={test.id}>
@@ -147,25 +124,6 @@ export default class TestList extends React.Component {
             <div>
                 <Header activeLink="testList" />
 
-                <div className="row  modal-title-padding">
-                    <div className="offset-lg-3 col-lg-6 offset-lg-3">
-                        <table className="table table-hover table-centered">
-                            <thead >
-                                <tr >
-                                    <th>Rbr</th>
-                                    <th>Naziv predmeta</th>
-                                    <th>&nbsp; </th>
-                                    <th>&nbsp; </th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                {this.renderSubjects()}
-                            </tbody>
-                        </table>
-
-                    </div>
-                </div>
                 <div className="row form-padding">
                     <div className="offset-lg-1 col-lg-6">
                         {this.state.testsVisibility && <table className=" table table-hover table-centered" >

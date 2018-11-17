@@ -11,11 +11,18 @@ import TestList from './components/TestList';
 import validator from 'validator';
 import SectionList from './components/SectionList';
 import MyStatefulEditor from './components/MyStatefulEditor';
+import ChooseSubject from './components/ChooseSubject';
+import AddSubject from './components/addSubject';
+
 
 
 const Dashbord = () => (
 <div><Header activeLink = "/" /> <br/> <SubjectList canAddSubjectShow = {true} /></div>
 );
+
+/* const Dashbord = () => (
+    <div><Header activeLink = "/" /> <br/> <ChooseSubject /></div>
+); */
 
 const NotFoundPage = () => (
     <div> Not found!
@@ -31,7 +38,7 @@ const routes = (
              <Route path = "/importFile" render={() => <ImportFile activeLink = "importFile"/>} exact = {true}/>
              <Route path = "/testList" render={() => <TestList activeLink = "testList"/>} exact = {true}/>
              <Route path = "/editor" render={() => <MyStatefulEditor activeLink = "editor"/>} exact = {true}/>
-    
+             <Route path = "/addSubject" render={() => <SubjectList canAddSubjectShow = {true}  activeLink = "addSubject"/>} exact = {true}/>
              <Route component = {NotFoundPage} />
         </Switch>
     </BrowserRouter>

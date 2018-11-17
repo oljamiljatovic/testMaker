@@ -1,21 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import MyStatefulEditor from './MyStatefulEditor';
+import { RadioGroup, RadioButton } from 'react-radio-buttons';
 
 export default class AddAnswer extends React.Component {
 
     constructor(props) {
         super(props);
         this.handleAddAnswer = this.handleAddAnswer.bind(this);
-        // /this.createCheckboxes = this.createCheckboxes.bind(this);
-        // this.importFile = this.importFile.bind(this);
-        // this.handleAddSubject = this.handleAddSubject.bind(this);
+        this.changeEditorState = this.changeEditorState.bind(this);
+        this.exactitudeChanged = this.exactitudeChanged.bind(this);
+      
 
         this.state = {
             questions: [],
             options: [],
             isChecked: false,
-            sectionId: ''
+            sectionId: '',
+            answerText : '',
+            exactitude : false
         };
     }
 
@@ -23,10 +26,12 @@ export default class AddAnswer extends React.Component {
         e.preventDefault();
 
         const answer = {};
-        answer.text = e.target.elements.text.value;
+        answer.text = this.state.answerText;
+        
+      //  e.target.elements.text.value;
 
         if (this.props.renderExactitude === true) {
-            if (e.target.elements.exactitude.value == "true") {
+            if (this.state.exactitude == "true") {
                 answer.exactitude = true;
             } else {
                 answer.exactitude = false;
@@ -42,38 +47,64 @@ export default class AddAnswer extends React.Component {
             answer.sign = "-";
         }
         this.props.addAnswer(answer);
-        e.target.elements.text.value = '';
+        //e.target.elements.text.value = ''; //DOPUNITI DA ISPRAZNI EDITOR
 
-        if (this.props.renderExactitude === true) {
-            e.target.elements.exactitude.value = '';
-        }
+   
+    }
+
+    changeEditorState(newText){
+        this.setState({
+            answerText : newText
+         })
+
+    }
+
+    exactitudeChanged(newExactitude){
+        this.setState({
+            exactitude : newExactitude.target.value
+         })
+
     }
     render() {
         return (
-            <div>
+           <div className = "row">
                 <form onSubmit={this.handleAddAnswer}>
         
                     <div className="row ">
                         <div 
                          className =  'form-group col-lg-12 '>
-                    
                             <label className= "text-color">Tekst odgovora:</label>
-                            <input type="text" name="text" className="form-control form-control-lg " />
+                            <MyStatefulEditor changeEditorState = {this.changeEditorState}/> 
                         </div>
                     </div>
 
-                    {this.props.renderExactitude && <div className="row ">
-                        <div
-                         className= 'form-group col-lg-12 '>
-                        
-
-                           <label className= "text-color">Tačnost :</label>
-                                <input type="text" name="exactitude" className="form-control form-control-lg" />
-                        </div>
-                    </div>}
+                 
                     <button className = "rounded-button btn button-primary-color">Dodaj odgovor</button>
                 </form>
-            </div>
+
+                <form> 
+                {this.props.renderExactitude && 
+                        <div
+                         className= 'form-group col-lg-12 '>
+                           <label className= "text-color">Tačnost :</label>
+                         
+                           <div className="radio"><label>
+                            <input type="radio" name="exactitude" 
+                                   value={true} 
+                                   checked={this.state.exactitude === 'true'} 
+                                   onChange={this.exactitudeChanged} /> Tacan
+                            </label> </div>
+                            <div className="radio"><label>
+                            <input type="radio" name="exactitude" 
+                                   value={false} 
+                                   checked={this.state.exactitude === 'false'} 
+                                   onChange={this.exactitudeChanged} /> Netacan
+                            </label> </div>
+                          {/*   <input type="text" name="exactitude" className="form-control form-control-lg" /> */}
+                       
+                    </div>}
+                </form>
+          </div>
         );
     }
 }

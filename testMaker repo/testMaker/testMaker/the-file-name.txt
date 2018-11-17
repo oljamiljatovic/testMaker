@@ -1,8 +1,6 @@
-/ SKAL=1 NEGOD=1 POZ=1 NEG=-1 ISPT=0 EDIT=0 SRAND=0 SVIODG=1 TESTP=0 DETALJI=1
+/ SKAL=1 NEGOD=1 POZ=1 NEG=1 ISPT=1 EDIT=1 SRAND=1 SVIODG=1 TESTP=1 DETALJI=1
 
-PP_T2_G1 
-""PP test - predrok" "PP Test - predrok""
-=miniC
+FA 
+"FAS"
+=FAS
 //oblast 		 pitanje 	 +poeni 	 -poeni 	 izbacivanje
-SEKCIJA TJ OBLAST		*Pt1.1	1.0	1.0	 izbacivanje
-SEKCIJA TJ OBLAST		*Pt1.2	1.0	1.0	 izbacivanje

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import AddSubject from './addSubject';
 import SectionList from './SectionList';
 import QuestionsForTest from './QuestionsForTest';
+import ChooseSubject from './ChooseSubject';
 export default class SubjectList extends React.Component {
 
     constructor(props) {
@@ -12,6 +13,7 @@ export default class SubjectList extends React.Component {
         this.selectedSection = this.selectedSection.bind(this);
         this.closeAddSubject = this.closeAddSubject.bind(this);
         this.handleAddSubject = this.handleAddSubject.bind(this);
+        this.closeChooseSubject = this.closeChooseSubject.bind(this);
         this.state = {
             subjectList: [],
             canSectionsShow: false,
@@ -19,44 +21,51 @@ export default class SubjectList extends React.Component {
             subject: {},
             sectionId: -1,
             canShowQuestionForTest: false,
-            canAddSubjectShow :false
+            canAddSubjectShow: false,
+            chooseSubjectVisibility: true
         };
     }
-  /*   handleAddSubject(addedSubject) {
-        var newArray = this.state.subjectList.slice();
-        newArray.push(addedSubject);
-        this.setState({ subjectList: newArray })
-    } */
-    handleAddSubject(addedSubject){
-        //treba dodati na back
-        var newArray = this.state.subjectList.slice();
-        newArray.push(addedSubject);
-        this.setState({ subjectList: newArray,
-        canAddSubjectShow : false})
 
-       
+    componentDidMount() {
+        if (this.props.isCreateTest != null) {
+            if (this.props.isCreateTest == true) {
+                this.setState({
+                    chooseSubjectVisibility: false,
+                    canSectionsShow: true
+                })
+            }
+        }
     }
-
     optionsForSubject(subject) {
-        if(this.props.choosenSubject != null){
+        if (this.props.choosenSubject != null) {
             this.props.choosenSubject(subject.id);
         }
-      
+
         this.setState({
             canSectionsShow: true,
             subjectId: subject.id,
             subject: subject
         })
     }
+    handleAddSubject(addedSubject) {
+        //treba dodati na back
+        var newArray = this.state.subjectList.slice();
+        newArray.push(addedSubject);
+        this.setState({
+            subjectList: newArray,
+            canAddSubjectShow: false
+        })
+    }
+
 
     openAddSubject() {
         this.setState({
             canAddSubjectShow: true
         })
     }
-    closeAddSubject(){
+    closeAddSubject() {
         this.setState({
-           canAddSubjectShow : false
+            canAddSubjectShow: false
         })
     }
     selectedSection(sectionId) {
@@ -66,78 +75,45 @@ export default class SubjectList extends React.Component {
         })
     }
 
-
-    componentDidMount() {
-        var quizUrl = 'http://localhost:8080/subjectList';
-        fetch(quizUrl, {
-            mode: 'cors',
-            method: "GET",
-            response: true
-        }).then(res => res.json())
-            .then(data => this.setState({ subjectList: data }));
+    closeChooseSubject(choosenSubject) {
+        this.setState({
+            chooseSubjectVisibility: false,
+            subject: choosenSubject,
+            subjectId: choosenSubject.id,
+            canSectionsShow: true
+        })
+        localStorage.setItem('subjectID', choosenSubject.id);
     }
 
-
-    renderSubjects() {
-        return this.state.subjectList.map(subject => (
-            <tr key={subject.id}>
-                <td>{subject.id}</td>
-                <td>{subject.name}</td>
-                <td>
-
-                    <input type="button" className= "rounded-button btn button-primary-color" value="Oblasti"
-                        onClick={(e) => {
-                            this.optionsForSubject(subject);
-                        }} />
-                </td>
-            </tr>
-        ))
-    }
 
 
     render() {
-
         return (
-
             <div className="container">
                 <div className="row padding-right-test">
-                    <div
-                        className={this.props.isCreateTest !== true ? 'offset-lg-2 col-lg-8 offset-lg-2" scroll-subject ' : 'col-lg-6 scroll-subject'}>
-                        {this.props.isCreateTest &&
-                            <label className= "text-color-bold">Predmeti </label>
-                        }
-                        <table className="table table-hover table-centered" >
-                            <thead >
-                                <tr >
-                                    <th>Rbr</th>
-                                    <th>Naziv predmeta</th>
-                                    <th>&nbsp; </th>
-                                </tr>
-                            </thead>
+                    <ChooseSubject
+                        chooseSubjectVisibility={this.state.chooseSubjectVisibility}
+                        closeChooseSubject={this.closeChooseSubject}
+                    />
+                    
+                    {!this.props.isCreateTest && <div> <button className="margin-left-button-15 rounded-button btn  button-primary-color " onClick={(e) => {
+                        this.openAddSubject();
+                    }}>Dodaj predmet</button> </div>}
 
-                            <tbody>
-                                {this.renderSubjects()}
-                            </tbody>
-                        </table>
-                    </div>
-                    {!this.props.isCreateTest &&  <div> <button className="margin-left-button-15 rounded-button btn  button-primary-color "   onClick={(e) => {
-                            this.openAddSubject();
-                        }}>Dodaj predmet</button> </div> }
+{/* Sekcije za Kreiraj test */}
                     {this.state.canSectionsShow && this.props.isCreateTest &&
-
-
                         <SectionList subject={this.state.subject} isCreateTest={this.props.isCreateTest} subjectId={this.state.subjectId}
                             getQuestions={this.props.getQuestions} selectedSection={this.selectedSection} />
-
                     }
                 </div>
 
+{/* Sekcije za HOME */}
                 {this.state.canSectionsShow && !this.props.isCreateTest &&
                     <SectionList subject={this.state.subject} isCreateTest={this.props.isCreateTest} subjectId={this.state.subjectId}
                         getQuestions={this.props.getQuestions} />
-                }
+                }  
 
-
+{/* Pitanja za Kreiraj test */}              
                 {this.state.canShowQuestionForTest &&
                     <div className="row">
                         <div className="col-lg-12">
@@ -145,31 +121,11 @@ export default class SubjectList extends React.Component {
                         </div>
                     </div>}
 
-                 {/*    this.props.canAddSubjectShow   */}
-                    
-
-                    <AddSubject
-                    
+                <AddSubject
                     canAddSubjectShow={this.state.canAddSubjectShow}
-                     closeAddSubject={this.closeAddSubject}
-                     handleAddSubject={this.handleAddSubject}
-                    
-                    
-                   /*  handleAddSubject={this.handleAddSubject} */ />
-              
-                 
-                  {/*   {this.props.canAddSubjectShow && <div>
-                    <h2>Novi predmet : </h2>
-                    <AddSubject handleAddSubject={this.handleAddSubject} />
-                </div>} */}
-        
+                    closeAddSubject={this.closeAddSubject}
+                    handleAddSubject={this.handleAddSubject} />
             </div>
-
-
-           
-
-             
-
         );
     }
 

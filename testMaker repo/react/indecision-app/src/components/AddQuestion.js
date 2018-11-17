@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import AddAnswer from './AddAnswer';
 import Modal from 'react-modal';
-import {Editor, EditorState} from 'draft-js';
+import MyStatefulEditor from './MyStatefulEditor';
 export default class AddQuestion extends React.Component {
 
     constructor(props) {
@@ -13,8 +13,9 @@ export default class AddQuestion extends React.Component {
         this.changePlusPoints = this.changePlusPoints.bind(this);
         this.addQuestion = this.addQuestion.bind(this);
         this.renderCategory = this.renderCategory.bind(this);
+        this.changeEditorState = this.changeEditorState.bind(this);
       
-        this.onChange = (editorState) => this.setState({editorState});
+      
 
         this.state = {
             options: ['/c', '/u', '/t'], //T je jedan a C vise
@@ -24,7 +25,7 @@ export default class AddQuestion extends React.Component {
             answerList: [],
             plusPoints: '',
             expand: false,
-            editorState: EditorState.createEmpty()
+           questionText : ''
         };
     }
 
@@ -99,7 +100,7 @@ export default class AddQuestion extends React.Component {
 
         const question = {};
         question.name = e.target.elements.questionName.value;
-        question.text = e.target.elements.questionText.value;
+        question.text = this.state.questionText;
         question.type = e.target.elements.questionType.value;
         question.category = e.target.elements.questionCategory.value;
         question.plusPoints = e.target.elements.questionPlusPoints.value;
@@ -125,12 +126,15 @@ export default class AddQuestion extends React.Component {
 
 
         e.target.elements.questionName.value = '';
-        e.target.elements.questionText.value = '';
+        //e.target.elements.questionText.value = '';
         e.target.elements.questionType.value = '';
         e.target.elements.questionPlusPoints.value = '';
         e.target.elements.questionMinusPoints.value = '';
     }
 
+    changeEditorState(editorText){
+        this.setState({ questionText: editorText })
+    }
     renderCategory(category) {
         if (category == "EASY") {
           return "Lak"
@@ -182,19 +186,19 @@ export default class AddQuestion extends React.Component {
                             <form onSubmit={this.addQuestion}>
 
                                 <div className="row">
-                                    <div className="form-group col-lg-8">
+                                    <div className="form-group col-lg-9">
                                         <label className= "text-color">Naziv pitanja:</label>
                                         <input type="text" name="questionName" className="form-control form-control-lg " />
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="form-group col-lg-8">
+                                    <div className="form-group col-lg-9">
                                         <label className= "text-color">Tekst pitanja:</label>
-                                        <textarea name="questionText" className="form-control " rows="5" />
+                                         <MyStatefulEditor changeEditorState = {this.changeEditorState}/> 
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="form-group col-lg-8">
+                                    <div className="form-group col-lg-9">
                                         <label className= "text-color">Tip pitanja:</label>
                                         <select className="form-control form-control-lg "
                                             name="questionType"
@@ -210,9 +214,9 @@ export default class AddQuestion extends React.Component {
                                         </select>
                                     </div>
                                 </div>
-                                <Editor editorState={this.state.editorState} onChange={this.onChange} />
+                               
                                 <div className="row">
-                                    <div className="form-group col-lg-8">
+                                    <div className="form-group col-lg-9">
                                         <label className= "text-color">Kategorija težine:</label>
                                         <select
                                             className="form-control form-control-lg "
@@ -233,14 +237,14 @@ export default class AddQuestion extends React.Component {
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="form-group col-lg-8">
+                                    <div className="form-group col-lg-9">
                                         <label className= "text-color">Broj bodova za tačan odgovor:</label>
                                         <input type="text" name="questionPlusPoints" className="form-control form-control-lg " value={this.state.plusPoints} onChange={this.changePlusPoints} />
                                     </div>
                                 </div>
 
                                 <div className="row">
-                                    <div className="form-group col-lg-8">
+                                    <div className="form-group col-lg-9">
                                         <label className= "text-color">Broj bodova za netačan odgovor:</label>
                                         <input type="text" name="questionMinusPoints" className="form-control form-control-lg" />
                                     </div>
