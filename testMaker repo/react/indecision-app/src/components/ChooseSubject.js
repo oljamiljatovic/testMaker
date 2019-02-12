@@ -43,20 +43,19 @@ export default class SubjectList extends React.Component {
                 isOpen ={this.props.chooseSubjectVisibility}
                 contentLabel="Choose subject"
                 onRequestClose={this.props.closeChooseSubject}
-                
             >
- <div className="modal-header">
-  <label className= "text-color">Odaberite predmet </label>
-        {/* <button type="button" className="close"  onClick={this.props.closeChooseSubject}>x</button> */}
-        </div> 
+            <div className="modal-header">
+                <label className= "text-color">Odaberite predmet </label>
+                <button type="button" className="close"  onClick={this.props.closeChooseSubject}>x</button>
+            </div> 
 <div className="container">
-                <div className="row padding-right-test">
+                <div className="row row-margin-top">
                     <div
                         className={this.props.isCreateTest !== true ? 'offset-lg-2 col-lg-8 offset-lg-2 ' : 'col-lg-6 '}>
                         {this.props.isCreateTest &&
                             <label className= "text-color-bold">Predmeti </label>
                         }
-                        <table className="table table-hover table-centered fixed_header" >
+                        <table className="table table-hover table-centered " >
                             <thead>
                                 <tr>
                                     <th>Rbr</th>
@@ -65,7 +64,7 @@ export default class SubjectList extends React.Component {
                                 </tr>
                             </thead>
 
-                            <tbody className = "fixed_header_tbody">
+                            <tbody >
                                 {this.renderSubjects()}
                             </tbody>
                         </table>

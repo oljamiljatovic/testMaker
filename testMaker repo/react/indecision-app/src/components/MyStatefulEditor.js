@@ -79,6 +79,7 @@ export default class MyStatefulEditor extends React.Component {
       }
     }
     return (
+      <div className = "RichEditor-new-root ">
       <div className="RichEditor-root">
         <InlineStyleControls
           editorState={editorState}
@@ -90,6 +91,7 @@ export default class MyStatefulEditor extends React.Component {
           onChange={this.onChange}
           className="RichEditor-root"
         />
+      </div>
       </div>
     );
   }

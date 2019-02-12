@@ -8,6 +8,7 @@ export default class QuestionList extends React.Component{
         this.informationAboutQuestion = this.informationAboutQuestion.bind(this);
         this.closeQuestionInformation = this.closeQuestionInformation.bind(this);
         this.renderCategory = this.renderCategory.bind(this);
+        this.getTextColor = this.getTextColor.bind(this);
          this.state = {
           questionList : [ 
           ],
@@ -67,19 +68,38 @@ export default class QuestionList extends React.Component{
         }
       }
 
-      
+      getTextColor(category){
+        if (category == "HARD") {
+            return 'hard-question';
+          } else if (category == "MEDIUM") {
+            return 'medium-question';
+          } else if (category == "EASY") {
+            return 'easy-question';
+          } 
+      }
+
+      /* renderText(text){
+          return text.substring(0,8);
+      } */
      renderProducts() {
         return this.state.questionList.map(question => (
-                <tr key={question.id}>
+                <tr key={question.id} >
                     <td>{question.name}</td>
-                    <td>{this.renderCategory(question.category)}</td>
+                    <td>{question.text.substring(0,15) + "..."}
+                        <span className="spnTooltip"> {question.text}
+                        </span> 
+                    </td>
+                    <td className={this.getTextColor(question.category)}>
+                        {this.renderCategory(question.category)}</td>
                     <td>
-                    {  <input type="button" className= "rounded-button btn button-primary-color" value="Informacije"
-                        onClick={(e) => {
+                    <div className = "button_div_info"  onClick={(e) => {
                             this.informationAboutQuestion(question.id);
-                        }}/>}
+                     }}>
+                        <span className="fa fa-info"></span>
+                    </div>
                     </td>  
-                </tr>
+                </tr> 
+              
         ))
     } 
 
@@ -88,19 +108,24 @@ export default class QuestionList extends React.Component{
         return(
           
              <div className = "col-lg-12 " >
-                <table className="table table-hover table-centered fixed_header" >
+                <table className=" table table-hover section-table " >{/* fixed_header */}
                     <thead> 
                         <tr >
-                           <th>Oznaka pitanja </th>
-                           <th>Težina pitanja </th>
+                           <th>Oznaka  </th>
+                           <th>Tekst  </th>
+                           <th>Težina  </th>
                            <th> &nbsp; </th>
                         </tr>
                     </thead>
-
+  
                     <tbody >
                   {this.renderProducts()} 
                     </tbody>
                 </table>
+        
+                <div className = "dropdown-content"> 
+                    <p>Tekst pitanja ce ici ovdje </p>
+                </div>
                 <div >
                      
                    <QuestionInformation
@@ -108,8 +133,9 @@ export default class QuestionList extends React.Component{
                      questionInformationVisibility = {this.state.questionInformationVisibility}
                      closeQuestionInformation = {this.closeQuestionInformation}
                     /> 
-                   
+                        
                 </div> 
+                    
             </div> 
             
         );

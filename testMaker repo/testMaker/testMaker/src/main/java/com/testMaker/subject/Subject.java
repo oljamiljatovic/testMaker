@@ -23,6 +23,7 @@ public class Subject {
 //		/@Column(name = "SUBJECT_ID")
 		private Long id;
 		
+		
 		private String name;
 		
 		@OneToMany

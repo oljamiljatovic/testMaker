@@ -91,12 +91,10 @@ export default class AddSubject extends React.Component {
   render() {
 
     return (
-
-      <Modal className="modalDialog"
+      <Modal 
         isOpen={this.props.canAddSubjectShow}
         contentLabel="Information"
-        onRequestClose={this.props.closeAddSubject}
-        className="modal-create"
+        onRequestClose={this.props.closeAddSubject}     
       >
         <div className="container">
           <div className="row">
@@ -105,18 +103,20 @@ export default class AddSubject extends React.Component {
               <button type="button" className="close" onClick={this.props.closeAddSubject} data-dismiss="modal">x</button>
             </div>
           </div>
-          <div className="row  div-centered" >
+          <div className="row" >
             <div className="offset-lg-3 col-lg-6 offset-lg-3  ">
-              <form onSubmit={this.handleAddSubject} className="form-padding">
+              <form onSubmit={this.handleAddSubject} >
                 <div className="row centered-content">
                   <div className="form-group col-lg-12 ">
                     <label className="text-color">Naziv predmeta:</label>
                     <MyStatefulEditor changeEditorState={this.changeEditorState} />
                   </div>
                 </div>
-                <div className="row right-content">
-                  <div className="offset-lg-8 col-lg-2 ">
-                    <button className="rounded-button btn  button-primary-color">Dodaj </button>
+                <div className="row ">
+                  <div className="col-lg-12">
+                   
+                    <button type = "button"  onClick={this.props.closeAddSubject}  className="rounded-button btn floating button-primary-color" >Zatvori</button>
+                    <button className="rounded-button btn button-primary-color floating-and-margin ">Dodaj </button>
                   </div>
                 </div>
               </form>
@@ -124,11 +124,11 @@ export default class AddSubject extends React.Component {
           </div>
 
 
-          <div className="row ">
+        {/*   <div className="row ">
             <div className=" offset-lg-10 col-lg-2 padding-bottom ">
               <button onClick={this.props.closeAddSubject} className="rounded-button btn  button-primary-color" >Zatvori </button>
             </div>
-          </div>
+          </div> */}
 
         </div>
 

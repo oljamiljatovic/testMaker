@@ -97,14 +97,24 @@ export default class SectionList extends React.Component {
             <tr key={section.id}>
                 <td>{section.name}</td>
                 <td>
-                    <button type="button" className="fa fa-list-ol"
+                    <div className = "button_div_list"  onClick={(e) => {
+                            this.questionsForSection(section.id);
+                    }}>
+                        <span className="fa fa-list" ></span>
+                    </div>
+                    <div className = "button_div_add"  onClick={(e) => {
+                            this.addQuestion(section.id);
+                     }}>
+                        <span className="fa fa-plus"></span>
+                    </div>
+                    {/* <button type="button" className="btn-lg fa fa-list-ol"
                         onClick={(e) => {
                             this.questionsForSection(section.id);
-                    }} />
-                    <button type="button" className="fa fa-plus"
+                    }} /> */}
+                   {/*  <button type="button" className="btn-lg fa fa-plus "
                         onClick={(e) => {
                             this.addQuestion(section.id);
-                     }} />
+                     }} /> */}
                 </td>
             </tr>
         ))
@@ -114,7 +124,7 @@ export default class SectionList extends React.Component {
     render() {
 
         return (
-            <div className={this.props.isCreateTest !== true ? 'row form-padding2 ' : 'col-lg-6 '}>
+            <div className={this.props.isCreateTest !== true ? 'row form-padding2 ' : 'col-lg-6  '}>
                 <div className={this.props.isCreateTest !== true ? 'col-lg-5  ' : ''}>
                     {this.props.isCreateTest &&
                         <label className="text-color-bold">Oblasti </label>
