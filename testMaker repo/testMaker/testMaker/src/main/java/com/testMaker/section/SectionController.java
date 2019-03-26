@@ -3,6 +3,8 @@ package com.testMaker.section;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.testMaker.question.Question;
 import com.testMaker.question.QuestionService;
@@ -64,6 +68,26 @@ public class SectionController {
 		return sectionService.findQuestionForSection(id);
 	}
 
+	@RequestMapping(value = "/deleteSection/{id}", method = RequestMethod.DELETE)
+	@CrossOrigin(origins = "http://127.0.0.1:3000/")
+    public void deleteSection(@PathVariable long id) {
+		Section section =  sectionService.findById(id).get();
+		ServletRequestAttributes attr = (ServletRequestAttributes) 
+			    RequestContextHolder.currentRequestAttributes();
+		
+		
+		HttpSession session= attr.getRequest().getSession();
+		Long subject = (Long) session.getAttribute("subjectID");
+		List<Section> sectionList = subjectService.findSectionsForSubject(subject);
+		for (Section section2 : sectionList) {
+			if(section2.getId().equals(id)) {
+				sectionList.remove(section2);
+			}
+		}
+		//subjectService.save(subject);
+		//sectionService.delete(section);
+	}
+	
 	@RequestMapping(value = "/scheduleQuestionsInSections/{id}", method = RequestMethod.POST, produces = {
 			MediaType.APPLICATION_JSON_VALUE }, consumes = { MediaType.APPLICATION_JSON_VALUE })
 	@CrossOrigin(origins = "http://127.0.0.1:3000/")

@@ -9,6 +9,8 @@ export default class QuestionsForTest extends React.Component {
         this.addToTheTest = this.addToTheTest.bind(this);
         this.removeFromTheTest = this.removeFromTheTest.bind(this);
         this.createTest = this.createTest.bind(this);
+        this.renderCategory = this.renderCategory.bind(this);
+        this.getTextColor = this.getTextColor.bind(this);
         //this.closeQuestionInformation = this.closeQuestionInformation.bind(this);
         this.state = {
             questionList: [],
@@ -89,6 +91,26 @@ export default class QuestionsForTest extends React.Component {
             }
         }
     }
+    
+    renderCategory(category) {
+        if (category == "EASY") {
+          return "Lak"
+        } else if (category == "MEDIUM") {
+          return "Srednje"
+        } else if (category == "HARD") {
+          return "Tezak"
+        }
+      }
+
+      getTextColor(category){
+        if (category == "HARD") {
+            return 'hard-question';
+          } else if (category == "MEDIUM") {
+            return 'medium-question';
+          } else if (category == "EASY") {
+            return 'easy-question';
+          } 
+      }
 
     createTest() {
         //e.preventDefault();
@@ -98,20 +120,26 @@ export default class QuestionsForTest extends React.Component {
         return this.state.questionList.map(question => (
             <tr key={question.id}>
                 <td>{question.name}</td>
-                <td>{question.text}</td>
-               
-                <td>
-                    <input type="button"  className = "rounded-button btn button-primary-color" value="Informacije o pitanju"
-                        onClick={(e) => {
-                            this.informationAboutQuestion(question.id);
-                        }} />
+                <td>{question.text.substring(0,25) + "..."}
+                        <span className="spnTooltip"> {question.text}
+                        </span> 
                 </td>
-
-                 <td>
-                    <input type="button"  className = "rounded-button btn button-secondary-color" value="Dodaj u test"
-                        onClick={(e) => {
+                <td className={this.getTextColor(question.category)}>
+                        {this.renderCategory(question.category)}
+                </td>
+                   
+                <td>
+                   <div className = "button_div_list"  onClick={(e) => {
+                        this.informationAboutQuestion(question.id);
+                    }}>
+                        <span className="fa fa-info"></span>
+                    </div> 
+                
+                    <div className = "button_div_add"  onClick={(e) => {
                             this.addToTheTest(question);
-                        }} />
+                     }}>
+                        <span className="fa fa-plus"></span>
+                    </div>
                 </td>
                
             </tr>
@@ -121,10 +149,27 @@ export default class QuestionsForTest extends React.Component {
         return this.state.choosenQuestionList.map(question => (
             <tr key={question.id}>
                 <td>{question.name}</td>
-                <td >{question.text}</td>
+                <td>{question.text.substring(0,25) + "..."}
+                        <span className="spnTooltip"> {question.text}
+                        </span> 
+                </td>
                
+                <td className={this.getTextColor(question.category)}>
+                        {this.renderCategory(question.category)}
+                </td>
                 <td>
-                    <input type="button"  className = "rounded-button btn button-primary-color" value="Informacije"
+                <div className = "button_div_list"  onClick={(e) => {
+                        this.informationAboutQuestion(question.id);
+                    }}>
+                        <span className="fa fa-info"></span>
+               </div> 
+            
+                <div className = "button_div_add"  onClick={(e) => {
+                        this.removeFromTheTest(question);
+                    }}>
+                    <span className="fa fa-minus"></span>
+                </div>
+                {/*     <input type="button"  className = "rounded-button btn button-primary-color" value="Informacije"
                         onClick={(e) => {
                             this.informationAboutQuestion(question.id);
                         }} />
@@ -134,7 +179,7 @@ export default class QuestionsForTest extends React.Component {
                     <input type="button" className = "rounded-button btn button-secondary-color" value="Izbaci iz testa"
                         onClick={(e) => {
                             this.removeFromTheTest(question);
-                        }} />
+                        }} /> */}
                 </td>
                
             </tr>
@@ -148,13 +193,13 @@ export default class QuestionsForTest extends React.Component {
 
                 <div className="col-lg-6 ">
                 <label className ="text-color-bold">Ponuđena pitanja </label>
-                    <table  className="table table-hover table-centered" >
+                    <table  className="table table-hover section-table" >
                         <thead >
                             <tr >
                                 
                                 <th>Naziv</th>
                                 <th>Tekst</th>
-                                <th>&nbsp;</th>
+                                <th>Težina  </th>
                                 <th>&nbsp;</th>
                             </tr>
                         </thead>
@@ -166,13 +211,13 @@ export default class QuestionsForTest extends React.Component {
                 </div>
                 <div className="col-lg-6 ">
                 <label className ="text-color-bold">Odabrana pitanja </label>
-                    <table  className="table table-hover table-centered" >
+                    <table  className="table table-hover section-table" >
                         <thead >
                             <tr >
                               
                                 <th>Naziv</th>
                                 <th>Tekst</th>
-                                <th>&nbsp;</th>
+                                <th>Težina</th>
                                 <th>&nbsp;</th>
                             </tr>
                         </thead>
@@ -186,18 +231,16 @@ export default class QuestionsForTest extends React.Component {
 
            
 
-                    <QuestionInformation
+                { this.state.questionInformationVisibility &&   <QuestionInformation
                         questionId={this.state.questionId}
                         questionInformationVisibility={this.state.questionInformationVisibility}
                         closeQuestionInformation={this.closeQuestionInformation}
-                    />
-
+                    />}
                 
-    <div className = "offset-lg-10 col-lg-2 ">
-                <button type="button" className = "btn rounded-button button-primary-color" onClick={(e) => {
-                    this.createTest();
-                }} >Ubaci odabrana pitanja </button>
-                </div>
+            <div className = "offset-lg-10 col-lg-2 ">
+                <button type="button" className = "rounded-button btn-lg button-primary-color floating fa fa-check"
+                 onClick={(e) => {this.createTest();}}/>
+            </div>
             
             </div>
         );

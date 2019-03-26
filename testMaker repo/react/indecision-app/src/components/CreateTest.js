@@ -98,26 +98,23 @@ class CreateTest extends React.Component {
                   <label>Grupa*</label>
                   <input className="form-control" type="text" name="group" />
                 </div>
-                <div className="offset-lg-1 col-lg-4  offset-lg-1 form-group">
+                <div className="offset-lg-1 col-lg-4  form-group">
                   <label>Materijali</label>
                   <input className="form-control" type="text" name="materials" />
+               
+                </div>
+                <div className = "form-group">
+                  <label className = "small_font_size">&nbsp;</label>
+                  <button type="button" className = "rounded-button btn-lg button-primary-color  fa fa-arrow-down drop_down_button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      this.changeStateOfDivParameters(e);
+                  }}/>
                 </div>
               </div>
             </div>
 
-            <div className = "col-lg-1">
-            <div className="row">
-            <div className=" col-lg-1 form-group">
-                  <label>&nbsp;</label>
-                  <button className="rounded-button btn button-primary-color"
-                onClick={(e) => {
-                  e.stopPropagation();
-                    this.changeStateOfDivParameters(e);
-                  }} 
-                  >Parametri </button>
-                </div>
-            </div>
-            </div>
+            
           </div>
        
       
@@ -182,8 +179,6 @@ class CreateTest extends React.Component {
 
     </form> 
       </div>
-
-
 
     );
   }

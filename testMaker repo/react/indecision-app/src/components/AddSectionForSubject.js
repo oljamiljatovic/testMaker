@@ -1,13 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
+import MyStatefulEditor from './MyStatefulEditor';
 export default class AddSectionForSubject extends React.Component {
 
   constructor(props) {
     super(props);
     this.handleAddSectionForSubject = this.handleAddSectionForSubject.bind(this);
+    this.changeEditorState = this.changeEditorState.bind(this);
     this.state = {
-      subjectId: props.subjectId
+      subjectId: props.subjectId,
+      textFromEditor: ""
     };
   }
 
@@ -22,7 +25,7 @@ export default class AddSectionForSubject extends React.Component {
 
   handleAddSectionForSubject(e) {
     e.preventDefault();
-    const sectionName = e.target.elements.sectionName.value.trim();
+    const sectionName = this.state.textFromEditor;
     const subjectId = e.target.elements.subjectId.value;
 
     const url = 'http://localhost:8080/addSectionForSubject/' + subjectId;
@@ -45,16 +48,19 @@ export default class AddSectionForSubject extends React.Component {
       .then(data => this.props.handleAddSectionForSubject(data));
 
   }
+  changeEditorState(textFromEditor) {
+    this.setState({
+      textFromEditor: textFromEditor
+    })
+  }
   render() {
 
     return (
-      <Modal className="modalDialog"
+      <Modal 
         isOpen={this.props.canAddSectionShow}
         contentLabel="Information"
         onRequestClose={this.props.closeAddSection}
-        className = "modal-create">
-
-
+        >
         <div className="container">
           <div className="row">
             <div className="col-lg-12 modal-title-padding modal-create-header ">
@@ -70,13 +76,13 @@ export default class AddSectionForSubject extends React.Component {
                 <div className="row centered-content">
                   <div className="form-group col-lg-12 ">
                     <label className= "text-color">Naziv oblasti:</label>
-                    {/* <input type="text" name="sectionName" className="form-control form-control-lg " /> */}
-                    <textarea name="text"  name="sectionName" className="form-control form-control-lg " cols="40" rows="5"/>
+                    <MyStatefulEditor changeEditorState={this.changeEditorState} />
                   </div>
                 </div>
-                <div className="row right-content">
-                  <div className="offset-lg-8 col-lg-2 ">
-                    <button className="rounded-button btn  button-primary-color">Dodaj </button>
+                <div className="row ">
+                  <div className="col-lg-12 ">
+                    <button onClick={this.props.closeAddSection} className="rounded-button btn button-primary-color floating" >Zatvori </button>
+                    <button className="rounded-button btn button-primary-color floating-and-margin">Dodaj </button>
                   </div>
                 </div>
                 <input type="hidden" value={this.state.subjectId} name="subjectId" />
@@ -85,12 +91,6 @@ export default class AddSectionForSubject extends React.Component {
             </div>
           </div>
 
-
-          <div className="row ">
-            <div className=" offset-lg-10 col-lg-2 padding-bottom ">
-              <button onClick={this.props.closeAddSection} className="rounded-button btn button-primary-color" >Zatvori </button>
-            </div>
-          </div>
 
         </div>
 

@@ -85,7 +85,7 @@ export default class QuestionList extends React.Component{
         return this.state.questionList.map(question => (
                 <tr key={question.id} >
                     <td>{question.name}</td>
-                    <td>{question.text.substring(0,15) + "..."}
+                    <td>{question.text.substring(0,25) + "..."}
                         <span className="spnTooltip"> {question.text}
                         </span> 
                     </td>
@@ -126,15 +126,15 @@ export default class QuestionList extends React.Component{
                 <div className = "dropdown-content"> 
                     <p>Tekst pitanja ce ici ovdje </p>
                 </div>
-                <div >
+               
                      
-                   <QuestionInformation
+              { this.state.questionInformationVisibility &&     <div > <QuestionInformation
                      questionId = {this.state.questionId}
                      questionInformationVisibility = {this.state.questionInformationVisibility}
                      closeQuestionInformation = {this.closeQuestionInformation}
                     /> 
                         
-                </div> 
+                </div> }
                     
             </div> 
             

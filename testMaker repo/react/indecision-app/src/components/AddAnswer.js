@@ -10,6 +10,7 @@ export default class AddAnswer extends React.Component {
         this.handleAddAnswer = this.handleAddAnswer.bind(this);
         this.changeEditorState = this.changeEditorState.bind(this);
         this.exactitudeChanged = this.exactitudeChanged.bind(this);
+        this.addAnswer = this.addAnswer.bind(this);
       
 
         this.state = {
@@ -51,6 +52,29 @@ export default class AddAnswer extends React.Component {
 
    
     }
+    addAnswer(){ //provjeriiiiii
+        const answer = {};
+        answer.text = this.state.answerText;
+        
+        if (this.props.renderExactitude === true) {
+            if (this.state.exactitude == "true") {
+                answer.exactitude = true;
+            } else {
+                answer.exactitude = false;
+            }
+
+        } else {
+            answer.exactitude = true;
+        }
+
+        if (answer.exactitude == true) {
+            answer.sign = "+";
+        } else {
+            answer.sign = "-";
+        }
+        this.props.addAnswer(answer);
+        //e.target.elements.text.value = ''; //DOPUNITI DA ISPRAZNI EDITOR
+    }
 
     changeEditorState(newText){
         this.setState({
@@ -67,43 +91,43 @@ export default class AddAnswer extends React.Component {
     }
     render() {
         return (
-           <div className = "row">
-                <form onSubmit={this.handleAddAnswer}>
-        
-                    <div className="row ">
-                        <div 
-                         className =  'form-group col-lg-12 '>
-                            <label className= "text-color">Tekst odgovora:</label>
-                            <MyStatefulEditor changeEditorState = {this.changeEditorState}/> 
+           <div className = "row padding-top-5">
+                <div className =  'form-group col-lg-12'>
+                    <form onSubmit={this.handleAddAnswer}>
+                        <label className= "text-color">Tekst odgovora:</label>
+                        <MyStatefulEditor changeEditorState = {this.changeEditorState}/> 
+                        {!this.props.renderExactitude && <button className = "rounded-button btn button-primary-color floating margin-top-5 ">Dodaj odgovor</button>}
+                    </form>
+                </div>
+                    
+                {this.props.renderExactitude && <div className= 'form-group col-lg-12'>
+                    <form className="row"> 
+                        <div className="col-lg-4">
+                            <label>
+                                <input type="radio" name="exactitude" 
+                                        value={true} 
+                                        checked={this.state.exactitude === 'true'} 
+                                        onChange={this.exactitudeChanged} /> Tacan
+                            </label> 
                         </div>
-                    </div>
-
-                 
-                    <button className = "rounded-button btn button-primary-color">Dodaj odgovor</button>
-                </form>
-
-                <form> 
-                {this.props.renderExactitude && 
-                        <div
-                         className= 'form-group col-lg-12 '>
-                           <label className= "text-color">Tačnost :</label>
-                         
-                           <div className="radio"><label>
-                            <input type="radio" name="exactitude" 
-                                   value={true} 
-                                   checked={this.state.exactitude === 'true'} 
-                                   onChange={this.exactitudeChanged} /> Tacan
-                            </label> </div>
-                            <div className="radio"><label>
-                            <input type="radio" name="exactitude" 
-                                   value={false} 
-                                   checked={this.state.exactitude === 'false'} 
-                                   onChange={this.exactitudeChanged} /> Netacan
-                            </label> </div>
-                          {/*   <input type="text" name="exactitude" className="form-control form-control-lg" /> */}
-                       
-                    </div>}
-                </form>
+                        <div className="col-lg-4">
+                            <label>
+                                <input type="radio" name="exactitude" 
+                                        value={false} 
+                                        checked={this.state.exactitude === 'false'} 
+                                        onChange={this.exactitudeChanged} /> Netacan
+                            </label> 
+                        </div> 
+                                
+                        {this.props.renderExactitude && <div className ="col-lg-1 offset-lg-3">
+                        <button type="button" className = "rounded-button btn-lg button-primary-color floating fa fa-check"
+                        onClick={(e) => {
+                            this.addAnswer();
+                        }}></button>    
+                        </div>}  
+                                     
+                    </form> 
+                </div>}
           </div>
         );
     }

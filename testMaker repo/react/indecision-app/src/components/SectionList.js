@@ -91,7 +91,15 @@ export default class SectionList extends React.Component {
         this.setState(() => ({ canAddQuestionShow: false }))
     }
 
-   
+   deleteSection(sectionId){
+    var quizUrl = 'http://localhost:8080/deleteSection/' + sectionId;
+    fetch(quizUrl, {
+        mode: 'cors',
+        method: "DELETE"
+    })
+        .then(res => { const arrayCopy = this.state.sectionList.filter((row) => row.id !== sectionId);
+            this.setState({sectionList: arrayCopy});});     
+   }
     renderSections() {
         return this.state.sectionList.map(section => (
             <tr key={section.id}>
@@ -106,6 +114,11 @@ export default class SectionList extends React.Component {
                             this.addQuestion(section.id);
                      }}>
                         <span className="fa fa-plus"></span>
+                    </div>
+                    <div className = "button_div_add"  onClick={(e) => {
+                            this.deleteSection(section.id);
+                     }}>
+                        <span className="fa fa-times"></span>
                     </div>
                     {/* <button type="button" className="btn-lg fa fa-list-ol"
                         onClick={(e) => {

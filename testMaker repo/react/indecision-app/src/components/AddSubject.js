@@ -94,7 +94,8 @@ export default class AddSubject extends React.Component {
       <Modal 
         isOpen={this.props.canAddSubjectShow}
         contentLabel="Information"
-        onRequestClose={this.props.closeAddSubject}     
+        onRequestClose={this.props.closeAddSubject}  
+    
       >
         <div className="container">
           <div className="row">
@@ -114,9 +115,10 @@ export default class AddSubject extends React.Component {
                 </div>
                 <div className="row ">
                   <div className="col-lg-12">
-                   
-                    <button type = "button"  onClick={this.props.closeAddSubject}  className="rounded-button btn floating button-primary-color" >Zatvori</button>
+        {/*           <button type="button"  onClick={this.props.closeAddSubject}  className = "rounded-button btn-lg button-primary-color floating fa fa-check"/> */}
+                    <button type = "button"  onClick={this.props.closeAddSubject}  className="rounded-button btn floating button-primary-color" >Zatvori</button> 
                     <button className="rounded-button btn button-primary-color floating-and-margin ">Dodaj </button>
+                 {/*    <button type="button" className = "rounded-button btn-lg button-primary-color floating-and-margin fa fa-times"/> */}
                   </div>
                 </div>
               </form>
@@ -137,4 +139,5 @@ export default class AddSubject extends React.Component {
 
     );
   }
+  
 }

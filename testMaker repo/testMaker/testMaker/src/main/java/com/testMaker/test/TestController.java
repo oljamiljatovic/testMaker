@@ -44,6 +44,13 @@ public class TestController {
 		return testService.findById(id).getQuestionList();
 	}
 	
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@CrossOrigin(origins = "http://127.0.0.1:3000/")
+    public void delete(@PathVariable long id) {
+		Test test =  testService.findById(id);
+		testService.delete(test);
+	}
+	
 	@RequestMapping(value = "/exportTest/{id}", method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_VALUE })
 	@CrossOrigin(origins = "http://127.0.0.1:3000/")
     public Test exportTest(@PathVariable long id) throws IOException{

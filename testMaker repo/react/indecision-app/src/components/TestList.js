@@ -13,6 +13,9 @@ export default class TestList extends React.Component {
         this.informationAboutQuestion = this.informationAboutQuestion.bind(this);
         this.closeQuestionInformation = this.closeQuestionInformation.bind(this);
         this.export = this.export.bind(this);
+        this.renderCategory = this.renderCategory.bind(this);
+        this.getTextColor = this.getTextColor.bind(this);
+        this.deleteTest = this.deleteTest.bind(this);
         this.state = {
             testList: [],
             questionList: [],
@@ -73,7 +76,7 @@ export default class TestList extends React.Component {
             response: true
         })
             .then(res => res.json())
-            .then(data => console.log("test id" + data.id));
+            .then(data => {console.log("test id" + data.id);  this.refs.popUp.click();});
     }
 
 
@@ -81,60 +84,129 @@ export default class TestList extends React.Component {
          this.testsForSubject(localStorage.getItem('subjectID'));
     }
 
+    deleteTest(testId){
+        var quizUrl = 'http://localhost:8080/' + testId;
+        fetch(quizUrl, {
+            mode: 'cors',
+            method: "DELETE"
+        })
+            .then(res => { const arrayCopy = this.state.testList.filter((row) => row.id !== testId);
+                this.setState({testList: arrayCopy});});     
+    }
+
     renderTests() {
         return this.state.testList.map(test => (
             <tr key={test.id}>
-                <td>{test.name}</td>
+                {/* <td>{test.name}</td> */}
+                <td>{test.name.substring(0,5) + "..."}
+                        <span className="spnTooltip"> {test.name}
+                        </span> 
+                </td>
+
                 <td>{test.label}</td>
                 <td>{test.questionList.length}</td>
-                <td>
-                    <input type="button" className="btn rounded-button button-primary-color" value="Pitanja iz testa"
-                        onClick={(e) => {
-                            this.questionsForTest(test.id);
-                        }} />
-                </td>
-                <td>
-                    <input type="button" className="btn rounded-button button-secondary-color" value="Export u fajl"
-                        onClick={(e) => {
+                <td>{test.groupTag}</td>
+                <td> <div className = "button_div_list"  onClick={(e) => {
                             this.export(test.id);
-                        }} />
+                        }} >
+                        <span className="fa fa-cloud-download "></span>
+                    </div> 
+            
+                    <div className = "button_div_add"  onClick={(e) => {
+                                this.questionsForTest(test.id);
+                        }} >
+                        <span className="fa fa-question"></span>
+                        {/* <span className="fa fa-question"></span> */}
+                    </div>
+                    <div className = "button_div_info_2"  >
+                        <span className="fa fa-info"></span>
+                    </div>
+                    <div className = "button_div_add"  onClick={(e) => {
+                                this.deleteTest(test.id);
+                        }} >
+                        <span className="fa fa-times"></span>
+                    
+                    </div>
                 </td>
-           
+                
             </tr>
         ))
     }
     renderQuestions() {
         return this.state.questionList.map(question => (
             <tr key={question.id}>
-                <td>{question.id}</td>
                 <td>{question.name}</td>
+                <td>{question.text.substring(0,15) + "..."}
+                        <span className="spnTooltip"> {question.text}
+                        </span> 
+                </td>
+                <td className={this.getTextColor(question.category)}>
+                        {this.renderCategory(question.category)}
+                </td>
                 <td>
-                    <input type="button" className = "btn rounded-button button-primary-color" value="Informacije"
+                <div className = "button_div_info"  onClick={(e) => {
+                        this.informationAboutQuestion(question.id);
+                    }}>
+                        <span className="fa fa-info"></span>
+        </div>
+                  {/*   <input type="button" className = "btn rounded-button button-primary-color" value="Informacije"
                         onClick={(e) => {
                             this.informationAboutQuestion(question.id);
-                        }} />
+                        }} /> */}
                 </td>
             </tr>
         ))
     }
+    renderCategory(category) {
+        if (category == "EASY") {
+          return "Lak"
+        } else if (category == "MEDIUM") {
+          return "Srednje"
+        } else if (category == "HARD") {
+          return "Tezak"
+        }
+      }
 
+      getTextColor(category){
+        if (category == "HARD") {
+            return 'hard-question';
+          } else if (category == "MEDIUM") {
+            return 'medium-question';
+          } else if (category == "EASY") {
+            return 'easy-question';
+          } 
+      }
 
     render() {
 
         return (
             <div>
                 <Header activeLink="testList" />
+                <a ref = "popUp" href = "#popup1"></a>
+                <div id="popup1" className="overlay">
+                <div className="popup">
+                    {/* <h2>Uspesno</h2> */}
+                    <a className="close" href="#">&times;</a>
+                    <div className="content">
+                    <div className = "fa fa-check-circle-o">&nbsp;&nbsp;</div>
+                    <span> Uspesno ste kreirali i exportovali test!</span>
+                        
+                    </div>
+                    </div>
+                </div>
+
 
                 <div className="row form-padding">
-                    <div className="offset-lg-1 col-lg-6">
-                        {this.state.testsVisibility && <table className=" table table-hover table-centered" >
+                    <div className="offset-lg-1 col-lg-5">
+                        {this.state.testsVisibility && <table className=" table table-hover section-table" >
                             <thead >
                                 <tr >
                                     <th>Naziv</th>
                                     <th>Oznaka </th>
                                     <th>Broj pitanja </th>
+                                    <th>Grupa</th>
                                     <th>&nbsp; </th>
-                                    <th>&nbsp; </th>
+                                  
                                 </tr>
                             </thead>
 
@@ -145,13 +217,14 @@ export default class TestList extends React.Component {
                         }
                     </div>
 
-                    <div className="col-lg-4 ">
-                        {this.state.questionsVisibility && <table className=" table table-hover table-centered" >
+                    <div className="col-lg-5  ">
+                        {this.state.questionsVisibility && <table className=" table table-hover section-table" >
                             <thead >
                                 <tr >
-                                    <th>Rbr</th>
+                                    
                                     <th>Naziv</th>
-                                    <th>Oznaka</th>
+                                    <th>Tekst</th>
+                                    <th>Tezina</th>
                                     <th>&nbsp; </th>
 
                                 </tr>
@@ -164,11 +237,11 @@ export default class TestList extends React.Component {
                         }
                     </div>
                 </div>
-                <QuestionInformation
+                { this.state.questionInformationVisibility && <QuestionInformation
                     questionId={this.state.questionId}
                     questionInformationVisibility={this.state.questionInformationVisibility}
                     closeQuestionInformation={this.closeQuestionInformation}
-                />
+                />}
 
             </div>
         );

@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import RichTextEditor from 'react-rte';
-import { Editor, EditorState, RichUtils } from 'draft-js';
+import { Editor, EditorState, RichUtils,ContentState  } from 'draft-js';
 import { stateToHTML } from 'draft-js-export-html';
+
 export default class MyStatefulEditor extends React.Component {
   constructor(props) {
     super(props);
@@ -12,12 +13,16 @@ export default class MyStatefulEditor extends React.Component {
     this.toggleInlineStyle = this._toggleInlineStyle.bind(this);
 
     this.state = {
-      editorState: EditorState.createEmpty()
+      editorState: EditorState.createEmpty(),
+      canChange : this.props.canChange
     };
 
 
     this.onChange = (editorState) => {
       //alert(this.state.editorState.getCurrentContent().getPlainText());
+      if(this.state.canChange == false){
+        return false;
+      }
       if (this.state.editorState.getCurrentContent().getPlainText() !== editorState.getCurrentContent().getPlainText()) {
         // alert(stateToHTML(this.state.editorState.getCurrentContent()));
         //alert(convertToRaw(editorState.getCurrentContent()));
@@ -31,8 +36,20 @@ export default class MyStatefulEditor extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) { //diskutabilna metoda
+    if(nextProps.textOfEditor !== this.props.textOfEditor) {
+      const contentState =  ContentState.createFromText(nextProps.textOfEditor);
+      const editorState = EditorState.createWithContent(contentState);
+      this.setState({ editorState : editorState,
+      canChange : nextProps.canChange });
+    }
+  }
+
+
   _handleKeyCommand(command, editorState) {
     const newState = RichUtils.handleKeyCommand(editorState, command);
+   
+
     if (newState) {
       this.onChange(newState);
       return true;
@@ -79,8 +96,8 @@ export default class MyStatefulEditor extends React.Component {
       }
     }
     return (
-      <div className = "RichEditor-new-root ">
-      <div className="RichEditor-root">
+      <div className = " RichEditor-new-root" >
+      <div className = "InlineStyle">
         <InlineStyleControls
           editorState={editorState}
           onToggle={this.toggleInlineStyle}

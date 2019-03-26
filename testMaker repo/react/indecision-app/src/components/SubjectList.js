@@ -82,6 +82,16 @@ export default class SubjectList extends React.Component {
             subjectId: choosenSubject.id,
             canSectionsShow: true
         })
+
+        var quizUrl = 'http://localhost:8080/choosenSubject/' + choosenSubject.id;
+        fetch(quizUrl, {
+            mode: 'cors',
+            method: "PUT",
+        })
+         
+
+
+
         localStorage.setItem('subjectID', choosenSubject.id);
     }
 

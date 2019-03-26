@@ -2,6 +2,8 @@ package com.testMaker.subject;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -10,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.condition.ConsumesRequestCondition;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.testMaker.section.Section;
 import com.testMaker.section.SectionService;
@@ -44,6 +47,19 @@ public class SubjectController {
 	@CrossOrigin(origins = "http://127.0.0.1:3000/")
     public List<Section> findSectionForSubject(@PathVariable long id) {
 		return subjectService.findSectionsForSubject(id);
+	}
+	
+	
+	@RequestMapping(value = "/choosenSubject/{id}", method = RequestMethod.PUT)
+	@CrossOrigin(origins = "http://127.0.0.1:3000/")
+    public void choosenSubject(@PathVariable long id) {
+		Subject subject = subjectService.findById(id);
+		ServletRequestAttributes attr = (ServletRequestAttributes) 
+			    RequestContextHolder.currentRequestAttributes();
+			HttpSession session= attr.getRequest().getSession(); 
+			session.setAttribute("subjectID", subject.getId());
+			
+			System.out.println("fasf");
 	}
 	
 	@RequestMapping(value = "/addSectionForSubject/{id}", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE }, consumes = {MediaType.APPLICATION_JSON_VALUE})
